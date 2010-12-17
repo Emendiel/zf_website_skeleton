@@ -1,0 +1,39 @@
+# PHP values we need to set
+# - timezone should be set
+# - need short open tags for view scripts
+php_value date.timezone "UTC"
+php_value short_open_tag 1
+php_value magic_quotes_gpc 0
+
+# Rewrite Rules        - need mod_rewrite
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} ^turbine/*
+RewriteRule 
+
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+RewriteRule .* - [E=HTTP_IF_MODIFIED_SINCE:%{HTTP:If-Modified-Since}]
+RewriteRule .* - [E=HTTP_IF_NONE_MATCH:%{HTTP:If-None-Match}]
+
+# Expires              - need mod_expires
+# You'll want to turn off the ExpiresActive setting when actively developing.
+# In production, however, these settings follow the Y!Slow guidelines.
+ExpiresActive On
+ExpiresDefault "access plus 1 year"
+
+#ETags                -
+#FileETag none
+
+# Gzip CSS and JS by default         - need mod_deflate
+#old version, no html compression : AddOutputFilterByType DEFLATE text/css application/x-javascript application/javascript
+SetOutputFilter DEFLATE
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+

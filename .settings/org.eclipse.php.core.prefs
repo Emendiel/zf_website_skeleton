@@ -1,0 +1,7 @@
+#Fri Oct 29 14:56:21 CEST 2010
+eclipse.preferences.version=1
+include_path=0;/zf_website_skeleton\u00055;org.eclipse.dltk.USER_LIBRARY/Zend Framework
+org.eclipse.php.core.phpForamtterIndentationSize=4
+org.eclipse.php.core.phpForamtterUseTabs=false
+phpVersion=php5.3
+use_asp_tags_as_php=false
