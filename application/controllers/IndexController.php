@@ -15,10 +15,15 @@ class IndexController extends Mn_Controller_Action
         // action body
         $this->getInvokeArg('bootstrap')->getResource('log')->log('test log', Zend_Log::WARN);
         
-        $facebook = $this->getInvokeArg('bootstrap')->getResource('facebook');
+        $facebook = $this->getInvokeArg('bootstrap')->getResource('mnFacebook');
         
-        //$this->view->fb_session = $facebook->authenticate();
+        $this->view->fbAppId = $facebook->getAppId();
         
+    }
+    
+    public function registerAction()
+    {
+
     }
     
     public function phpinfoAction()

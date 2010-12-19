@@ -24,7 +24,7 @@ require_once 'Zend/Application/Resource/ResourceAbstract.php';
  * @subpackage Resource
  * @copyright  Copyright (c) 2004-2010 Mimesis Republic
  */
-class Mn_Application_Resource_Facebook extends Zend_Application_Resource_ResourceAbstract
+class Mn_Application_Resource_Mnfacebook extends Zend_Application_Resource_ResourceAbstract
 {
     /**
      * @var Facebook
@@ -38,10 +38,10 @@ class Mn_Application_Resource_Facebook extends Zend_Application_Resource_Resourc
      */
     public function init()
     {
-        return $this->getFacebook();
+        return $this->getMnFacebook();
     }
 
-    public function getFacebook()
+    public function getMnFacebook()
     {
         if (null === $this->_facebook) {
             $options = $this->getOptions();

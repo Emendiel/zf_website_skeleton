@@ -51,7 +51,7 @@ production:
        gc_maxlifetime: 7200
        use_only_cookies: true
        remember_me_seconds: 864000
-    facebook:
+    mnFacebook:
       appName: testzfapp
       appId: 172116222801586
       secret: "1a9d4b551d7feb847a24d06d45115024"

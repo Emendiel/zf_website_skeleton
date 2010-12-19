@@ -9,5 +9,80 @@
 </head>
 <body>
     <?php echo $this->layout()->content; ?>
+    <script language="JavaScript" type="text/javascript">
+    //Facebook
+    (function () {
+    	var fbRoot, e;
+
+    	//add div fb-root
+    	fbRoot = document.createElement('div');
+    	fbRoot.id = "fb-root";
+    	document.body.appendChild(fbRoot);
+
+      //add script
+      e = document.createElement('script');
+      e.async = true;
+      e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+      fbRoot.appendChild(e);
+
+      //Add Facebook Connect Button Handler on click on all tag with .facebook_connect_button class
+      window.addFacebookConnectButtonAction = function addFacebookConnectButtonAction() {
+          if(window.$ && window.FB) {
+              $(document).ready(function () {
+                  $(".facebook_connect_button").click(function () {
+                      FB.login(function(response) {
+
+                          if (response.status == 'connected') {
+                              FB.getLoginStatus(function(response) {
+
+                                  if (response.session) {
+                                     //document.location = '/auth/auth/fblogin?goback='+?php echo (!empty($this->urlGoBack)) ? "'".$this->urlGoBack."'" : "encodeURI(document.location)"; ?;
+                                  }
+                              }
+                              , true);
+                          }
+                      });
+                  });
+              });
+          }
+          else {
+              setTimeout(window.addFacebookConnectButtonAction, 200);
+          }
+      }
+
+      window.addFacebookConnectButtonAction();
+
+    }());
+
+    window.fbAsyncInit = function fbAsyncInit() {
+
+        FB.init({
+          appId: '<?php echo $this->fbAppId; ?>',
+          status: true,
+          cookie: true,
+          xfbml: true});
+
+        FB.Event.subscribe('auth.sessionChange', function(response) {
+           /** if (response.session) {
+              $.ajax({
+                  type     : 'GET',
+                  url      : '/default/index/session',
+                  dataType : 'json',
+                  cache    : false,
+                  success  : function (result) {
+                      if (result.user && result.user['facebook_connect.facebook_user_id'] && result.user['facebook_connect.facebook_user_id'] == response.session.uid) {
+                          return ;
+                      } else {
+                          document.location = '/auth/auth/fblogin?goback='+document.location.href;
+                      }
+                  },
+                  failure  : function (result) {}
+              });
+            } else {
+              document.location = '/auth/auth/logout';
+            }**/
+        });
+    }
+    </script>
 </body>
 </html>
