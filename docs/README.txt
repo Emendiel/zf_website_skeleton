@@ -31,6 +31,7 @@ The following is a sample VHOST to customize.
     
     # This should be omitted in the production environment
     Alias /docs/ "{project-path}/docs/"
+    Alias /tests/ "{project-path}/tests/log/"
 
     ErrorLog /var/log/apache2/{host.name}-error.log
 
@@ -72,3 +73,16 @@ pear install PhpDocumentor
 to generate api doc
 phpdoc -d {project-path}/application -o HTML:frames -t {project-path}/docs/api -ti {project.name}
 or use phpdoc -c myconfig.ini (this file has to be defined)
+
+Setting Up PHPUnit
+==================
+
+pear channel-discover pear.phpunit.de
+pear channel-discover components.ez.no
+pear channel-discover pear.symfony-project.com
+pear install --allDeps phpunit/PHPUnit
+
+to run PHPUnit
+phpunit --configuration {project-path}/tests/phpunit.xml
+
+to have code coverage report xdebug have to be installed

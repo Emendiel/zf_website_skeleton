@@ -28,6 +28,25 @@ production:
     locale:
       default: en_US
       force: true
+    cachemanager:
+      memcached:
+        frontend:
+          name: Core
+          options:
+            automatic_serialization: On
+        backend:
+          name: Libmemcached
+          options:
+            servers:
+              one:
+                host: localhost
+                port: 11211
+                persistent: On
+     session:
+       name: phpsessionname
+       saveHandler:
+         class: Mn_Session_SaveHandler_Cache
+       gc_maxlifetime: 7200
     facebook:
       appName: testzfapp
       appId: 172116222801586
@@ -42,7 +61,7 @@ production:
         filterParams:
           priority: 4
 
-qa:
+testing:
   _extends: production
   phpSettings:
     display_startup_errors: 1
