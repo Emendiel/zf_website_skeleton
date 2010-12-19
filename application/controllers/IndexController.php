@@ -1,7 +1,8 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
+class IndexController extends Mn_Controller_Action
 {
+    protected $aclDisabled = array('all');
 
     public function init()
     {
@@ -26,6 +27,10 @@ class IndexController extends Zend_Controller_Action
         exit;
     }
 
-
+    public function forbiddenAction()
+    {
+        echo "forbidden";
+        exit;
+    }
 }
 

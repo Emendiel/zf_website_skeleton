@@ -14,9 +14,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $cachemanager = $this->getPluginResource('cachemanager')
                              ->init();
  
+        //TODO: add a version number for memcache
         // fetch the current revision from svn and use it as a prefix
         // why: we do not want to restart memcached, or you will lose sessions.
-        if (!$appVersion = apc_fetch('progsite_version')) {
+        /*if (!$appVersion = apc_fetch('progsite_version')) {
             $dir = getcwd();
             chdir(dirname(__FILE__));
             $appVersion = filter_var(`svn info | grep "Revision"`, FILTER_SANITIZE_NUMBER_INT);
@@ -26,10 +27,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 $appVersion = mt_rand(0, 99999); // simply handles an export instead of checkout
             }
             apc_store('progsite_version', $appVersion);
-        }
+        }*/
  
         $memcached = $cachemanager->getCache('memcached');
-        $memcached->setOption('cache_id_prefix', APPLICATION_ENV . '_' . $appVersion);
+        $memcached->setOption('cache_id_prefix', APPLICATION_ENV /*. '_' . $appVersion*/);
  
         return $cachemanager;
     }
@@ -46,7 +47,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->bootstrap('session');
         $opts = $this->getOptions();
-        if ('Zend_Session_SaveHandler_Cache' == $opts['resources']['session']['saveHandler']['class']) {
+        if ('Mn_Session_SaveHandler_Cache' == $opts['resources']['session']['saveHandler']['class']) {
             $cache = $this->bootstrap('cachemanager')
                           ->getResource('cachemanager')
                           ->getCache('memcached'); 

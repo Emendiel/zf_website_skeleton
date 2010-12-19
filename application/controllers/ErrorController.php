@@ -2,6 +2,7 @@
 
 class ErrorController extends Zend_Controller_Action
 {
+    protected $aclDisabled = array('all');
 
     public function errorAction()
     {

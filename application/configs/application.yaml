@@ -2,6 +2,8 @@ production:
   phpSettings:
     display_startup_errors: 0
     display_errors: 0
+    date:
+      timezone: UTC
   includePaths:
     library: APPLICATION_PATH/../library
   autoloaderNamespaces:
@@ -43,10 +45,12 @@ production:
                 port: 11211
                 persistent: On
      session:
-       name: phpsessionname
+       name: mn_website_session_id
        saveHandler:
          class: Mn_Session_SaveHandler_Cache
        gc_maxlifetime: 7200
+       use_only_cookies: true
+       remember_me_seconds: 864000
     facebook:
       appName: testzfapp
       appId: 172116222801586
