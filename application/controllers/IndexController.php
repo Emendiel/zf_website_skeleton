@@ -1,12 +1,10 @@
 <?php
 
-class IndexController extends Mn_Controller_Action
+class IndexController extends Zend_Controller_Action
 {
-    protected $aclDisabled = array('all');
-
     public function init()
     {
-        /* Initialize action controller here */
+        $this->_helper->access->permissionDisabled = array('all');
     }
 
     public function indexAction()
