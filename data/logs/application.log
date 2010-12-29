@@ -1,99 +1,150 @@
-2010-10-31T01:57:28+02:00 WARN (4): test log
-2010-10-31T02:00:11+02:00 WARN (4): test log
-2010-11-02T15:56:00+01:00 WARN (4): test log
-2010-11-02T15:58:05+01:00 WARN (4): test log
-2010-11-02T16:04:50+01:00 WARN (4): test log
-2010-11-02T16:06:19+01:00 WARN (4): test log
-2010-11-02T16:10:54+01:00 CRIT (2): Application error
-2010-11-02T16:14:14+01:00 WARN (4): test logZend_Registry
-2010-11-02T16:15:11+01:00 WARN (4): test logZend_Registry
-2010-11-02T16:15:27+01:00 CRIT (2): Application error
-2010-11-03T15:49:07+01:00 CRIT (2): Application error
-2010-11-03T17:46:27+01:00 CRIT (2): Application error
-2010-11-03T17:46:50+01:00 CRIT (2): Application error
-2010-11-03T17:47:16+01:00 CRIT (2): Application error
-2010-11-03T17:47:18+01:00 CRIT (2): Application error
-2010-11-03T17:47:18+01:00 CRIT (2): Application error
-2010-11-03T17:47:19+01:00 CRIT (2): Application error
-2010-11-03T17:47:29+01:00 CRIT (2): Application error
-2010-11-03T17:48:03+01:00 CRIT (2): Application error
-2010-11-03T17:48:04+01:00 CRIT (2): Application error
-2010-11-03T17:53:59+01:00 CRIT (2): Application error
-2010-11-03T17:54:11+01:00 WARN (4): test log
-2010-11-04T14:19:31+01:00 WARN (4): test log
-2010-11-04T14:23:55+01:00 WARN (4): test log
-2010-11-04T14:23:57+01:00 WARN (4): test log
-2010-11-04T14:23:57+01:00 WARN (4): test log
-2010-11-04T14:30:40+01:00 WARN (4): test log
-2010-11-04T14:30:40+01:00 WARN (4): session
-2010-11-04T14:34:44+01:00 WARN (4): test log
-2010-11-04T14:34:44+01:00 WARN (4): session
-2010-11-04T14:38:10+01:00 WARN (4): test log
-2010-11-04T14:38:10+01:00 WARN (4): session
-2010-11-04T14:39:18+01:00 WARN (4): test log
-2010-11-04T14:39:18+01:00 WARN (4): session
-2010-11-04T15:23:47+01:00 WARN (4): test log
-2010-11-04T15:23:47+01:00 WARN (4): session
-2010-11-04T15:23:47+01:00 CRIT (2): Application error
-2010-11-04T15:25:08+01:00 WARN (4): test log
-2010-11-04T15:26:39+01:00 WARN (4): test log
-2010-11-05T17:47:15+01:00 WARN (4): test log
-2010-11-05T17:48:45+01:00 WARN (4): test log
-2010-12-08T18:42:47+01:00 WARN (4): test log
-2010-12-08T18:43:06+01:00 WARN (4): test log
-2010-12-08T18:43:26+01:00 WARN (4): test log
-2010-12-11T14:08:43+01:00 WARN (4): test log
-2010-12-13T13:26:57+01:00 WARN (4): test log
-2010-12-13T13:26:59+01:00 WARN (4): test log
-2010-12-14T13:42:29+01:00 WARN (4): test log
-2010-12-15T20:04:38+01:00 WARN (4): test log
-2010-12-17T15:40:36+01:00 WARN (4): test log
-2010-12-17T15:40:42+01:00 WARN (4): test log
-2010-12-17T18:16:13+01:00 WARN (4): test log
-2010-12-17T18:16:14+01:00 WARN (4): test log
-2010-12-17T18:18:26+01:00 WARN (4): test log
-2010-12-17T18:18:26+01:00 WARN (4): test log
-2010-12-17T18:18:26+01:00 WARN (4): test log
-2010-12-17T18:18:27+01:00 WARN (4): test log
-2010-12-17T18:18:27+01:00 WARN (4): test log
-2010-12-18T13:27:35+01:00 WARN (4): test log
-2010-12-19T11:38:26+01:00 WARN (4): test log
-2010-12-19T12:30:51+01:00 WARN (4): test log
-2010-12-19T12:30:52+01:00 WARN (4): test log
-2010-12-19T12:31:15+01:00 WARN (4): test log
-2010-12-19T22:13:16+00:00 WARN (4): test log
-2010-12-19T22:13:19+00:00 WARN (4): test log
-2010-12-19T22:19:23+00:00 CRIT (2): Application error
-2010-12-19T22:20:14+00:00 CRIT (2): Application error
-2010-12-19T22:20:19+00:00 CRIT (2): Application error
-2010-12-19T22:20:30+00:00 CRIT (2): Application error
-2010-12-19T22:21:25+00:00 CRIT (2): Application error
-2010-12-19T22:21:32+00:00 CRIT (2): Application error
-2010-12-19T22:21:39+00:00 CRIT (2): Application error
-2010-12-19T22:21:46+00:00 CRIT (2): Application error
-2010-12-19T22:24:00+00:00 CRIT (2): Application error
-2010-12-19T22:24:48+00:00 CRIT (2): Application error
-2010-12-19T22:29:03+00:00 WARN (4): test log
-2010-12-19T22:29:07+00:00 WARN (4): test log
-2010-12-19T22:42:41+00:00 WARN (4): test log
-2010-12-19T23:00:06+00:00 WARN (4): test log
-2010-12-19T23:23:50+00:00 WARN (4): test log
-2010-12-19T23:24:36+00:00 WARN (4): test log
-2010-12-19T23:24:43+00:00 WARN (4): test log
-2010-12-19T23:24:44+00:00 WARN (4): test log
-2010-12-19T23:29:59+00:00 WARN (4): test log
-2010-12-19T23:30:02+00:00 WARN (4): test log
-2010-12-19T23:31:13+00:00 WARN (4): test log
-2010-12-19T23:31:57+00:00 WARN (4): test log
-2010-12-19T23:32:51+00:00 WARN (4): test log
-2010-12-19T23:33:15+00:00 WARN (4): test log
-2010-12-19T23:33:29+00:00 WARN (4): test log
-2010-12-19T23:33:31+00:00 WARN (4): test log
-2010-12-19T23:36:48+00:00 WARN (4): test log
-2010-12-19T23:37:19+00:00 WARN (4): test log
-2010-12-19T23:38:03+00:00 WARN (4): test log
-2010-12-19T23:38:03+00:00 CRIT (2): Application error
-2010-12-19T23:38:32+00:00 WARN (4): test log
-2010-12-19T23:38:38+00:00 WARN (4): test log
-2010-12-19T23:39:23+00:00 WARN (4): test log
-2010-12-20T20:32:29+00:00 CRIT (2): Application error
+2010-12-29T16:45:06+00:00 CRIT (2): ok ok
+2010-12-29T16:45:06+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:07+00:00 CRIT (2): ok ok
+2010-12-29T16:45:07+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:27+00:00 CRIT (2): ok ok
+2010-12-29T16:45:27+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:27+00:00 CRIT (2): ok ok
+2010-12-29T16:45:27+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:27+00:00 CRIT (2): ok ok
+2010-12-29T16:45:27+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:27+00:00 CRIT (2): ok ok
+2010-12-29T16:45:27+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:27+00:00 CRIT (2): ok ok
+2010-12-29T16:45:27+00:00 CRIT (2): mon premier log
+2010-12-29T16:45:27+00:00 CRIT (2): ok ok
+2010-12-29T16:45:27+00:00 CRIT (2): mon premier log
+2010-12-29T16:46:45+00:00 CRIT (2): mon premier log
+2010-12-29T16:46:45+00:00 CRIT (2): Application error
+2010-12-29T16:46:55+00:00 CRIT (2): mon premier log
+2010-12-29T16:46:55+00:00 ERR (3): mon premier log
+2010-12-29T16:46:55+00:00 WARN (4): mon premier log
+2010-12-29T16:47:00+00:00 CRIT (2): mon premier log
+2010-12-29T16:47:00+00:00 ERR (3): mon premier log
+2010-12-29T16:47:00+00:00 WARN (4): mon premier log
+2010-12-29T16:47:58+00:00 CRIT (2): mon premier log
+2010-12-29T16:47:58+00:00 ERR (3): mon premier log
+2010-12-29T16:47:58+00:00 WARN (4): mon premier log
+2010-12-29T16:47:58+00:00 DEBUG (7): mon premier log
+2010-12-29T16:54:01+00:00 CRIT (2): mon premier log
+2010-12-29T16:54:01+00:00 ERR (3): mon premier log
+2010-12-29T16:54:01+00:00 WARN (4): mon premier log
+2010-12-29T16:54:01+00:00 DEBUG (7): mon premier log
+2010-12-29T16:54:01+00:00 DEBUG (7): array
+2010-12-29T16:54:20+00:00 CRIT (2): mon premier log
+2010-12-29T16:54:20+00:00 ERR (3): mon premier log
+2010-12-29T16:54:20+00:00 WARN (4): mon premier log
+2010-12-29T16:54:20+00:00 DEBUG (7): mon premier log
+2010-12-29T16:54:20+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:54:41+00:00 CRIT (2): mon premier log
+2010-12-29T16:54:41+00:00 ERR (3): mon premier log
+2010-12-29T16:54:41+00:00 WARN (4): mon premier log
+2010-12-29T16:54:41+00:00 DEBUG (7): mon premier log
+2010-12-29T16:54:41+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:54:41+00:00 DEBUG (7): 
+2010-12-29T16:55:05+00:00 CRIT (2): mon premier log
+2010-12-29T16:55:05+00:00 ERR (3): mon premier log
+2010-12-29T16:55:05+00:00 WARN (4): mon premier log
+2010-12-29T16:55:05+00:00 DEBUG (7): mon premier log
+2010-12-29T16:55:05+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:55:13+00:00 CRIT (2): mon premier log
+2010-12-29T16:55:13+00:00 ERR (3): mon premier log
+2010-12-29T16:55:13+00:00 WARN (4): mon premier log
+2010-12-29T16:55:13+00:00 DEBUG (7): mon premier log
+2010-12-29T16:55:13+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:55:49+00:00 CRIT (2): mon premier log
+2010-12-29T16:55:49+00:00 ERR (3): mon premier log
+2010-12-29T16:55:49+00:00 WARN (4): mon premier log
+2010-12-29T16:55:49+00:00 DEBUG (7): mon premier log
+2010-12-29T16:55:49+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:55:49+00:00 DEBUG (7): 
+2010-12-29T16:56:06+00:00 CRIT (2): mon premier log
+2010-12-29T16:56:06+00:00 ERR (3): mon premier log
+2010-12-29T16:56:06+00:00 WARN (4): mon premier log
+2010-12-29T16:56:06+00:00 DEBUG (7): mon premier log
+2010-12-29T16:56:06+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:56:06+00:00 DEBUG (7): 
+2010-12-29T16:56:18+00:00 CRIT (2): mon premier log
+2010-12-29T16:56:18+00:00 ERR (3): mon premier log
+2010-12-29T16:56:18+00:00 WARN (4): mon premier log
+2010-12-29T16:56:18+00:00 DEBUG (7): mon premier log
+2010-12-29T16:56:18+00:00 DEBUG (7): Array
+(
+    [test] => Array
+        (
+            [couou] => hi
+            [1] => plop
+        )
+
+    [no] => oui
+)
+
+2010-12-29T16:56:18+00:00 DEBUG (7): array (
+  'test' => 
+  array (
+    'couou' => 'hi',
+    1 => 'plop',
+  ),
+  'no' => 'oui',
+)
+2010-12-29T17:10:35+00:00 CRIT (2): Page not found

@@ -86,3 +86,20 @@ to run PHPUnit
 phpunit --configuration {project-path}/tests/phpunit.xml
 
 to have code coverage report xdebug have to be installed
+
+Log Level usecases
+==================
+
+emerg   = 0 : system is unusable 
+alert   = 1 : action must be taken immediatly
+crit    = 2 : critical conditions
+err     = 3 : error conditions
+warn    = 4 : warning conditions
+notice  = 5 : normal but signifiant conditions
+info    = 6 : informational messages
+debug   = 7 : level messages, use this to print values
+
+Usage in action controller : 
+  $this->_helper->resource('Log')->debug("My message");
+  
+To change print priority go to configs/application.yaml

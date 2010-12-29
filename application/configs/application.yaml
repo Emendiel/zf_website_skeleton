@@ -17,6 +17,7 @@ production:
   resources:
     frontController:
       controllerDirectory: APPLICATION_PATH/controllers
+      moduleDirectory: APPLICATION_PATH/modules
       actionhelperpaths: 
         Mn_Controller_Action_Helper_: APPLICATION_PATH/../library/Mn/Controller/Helper
       params:
@@ -66,7 +67,7 @@ production:
         filterName: Priority
         filterParams:
           priority: 4
-
+          
 testing:
   _extends: production
   phpSettings:
@@ -83,7 +84,5 @@ development:
         displayExceptions: 1
     log:
       stream:
-        writerName: Firebug
-        filterName: Priority
         filterParams:
-          priority: 6
+          priority: 7

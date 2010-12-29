@@ -1,5 +1,18 @@
 <?php
+/**
+ * Error controller
+ * 
+ * @category
+ * @package
+ * @version
+ * @copyright
+ */
 
+/**
+ * ErrorController
+ * 
+ * @see Zend_Controller_Action
+ */
 class ErrorController extends Zend_Controller_Action
 {
     public function init()

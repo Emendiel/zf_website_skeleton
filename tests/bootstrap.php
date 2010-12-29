@@ -1,4 +1,12 @@
 <?php
+/**
+ * Bootstrap
+ * 
+ * @category
+ * @version
+ * @copyright
+ */
+
 /*
  * Start output buffering
  */

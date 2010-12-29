@@ -18,7 +18,7 @@ class Mn_Controller_Action_Helper_Access extends Zend_Controller_Action_Helper_A
      * 
      * @var null|string
      */
-    public $resourceId = null;   
+    public $resourceId = null;  
     
     /**
      * List of the permissions control disabled for the current controller, empty per default

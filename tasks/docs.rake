@@ -7,6 +7,6 @@ namespace :docs do
   
   desc "Generate Documentation"
   task :generate do
-    sh "phpdoc -d #{ROOT}/application -o HTML:frames -t #{ROOT}/docs/api -ti Mamba_Nation_Website" rescue puts "PEAR::PhpDocumentator must be installed"
+    sh "phpdoc -d #{ROOT}/application -o HTML:frames -t #{ROOT}/docs/api -ti Mamba_Nation_Website -i *.phtml" rescue puts "PEAR::PhpDocumentator must be installed"
   end
 end
