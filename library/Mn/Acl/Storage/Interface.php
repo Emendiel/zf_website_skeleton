@@ -40,7 +40,7 @@ interface Mn_Acl_Storage_Interface
      * @throws Mn_Acl_Storage_Exception If writing $contents to storage is impossible
      * @return void
      */
-    public function write($contents);
+    public function write(Zend_Acl $contents);
 
     /**
      * Clears contents from storage

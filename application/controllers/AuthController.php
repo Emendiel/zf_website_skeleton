@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
+class AuthController extends Zend_Controller_Action
 {
     protected $aclDisabled = array('all');
 

@@ -105,7 +105,7 @@ class Mn_Acl_Storage_Session implements Mn_Acl_Storage_Interface
      * @param  mixed $contents
      * @return void
      */
-    public function write($contents)
+    public function write(Zend_Acl $contents)
     {
         $this->_session->{$this->_member} = $contents;
     }
