@@ -1,6 +1,8 @@
-<p>coucou</p>
+<?php echo $this->translate('WELCOME'); ?>
 
 <p><?php print_r($this->fb_session); ?></p>
 
 
 <p><fb:login-button registration-url="http://zf_website_skeleton.localhost/index/register" /></p>
+
+<?php echo Zend_Registry::get('Zend_Locale');?>

@@ -32,7 +32,11 @@ production:
       charset: UTF-8
     locale:
       default: en_US
-      force: true
+#      force: true
+    translate:
+      adapter: gettext
+      content: APPLICATION_PATH/../data/locales
+      scan: directory
     cachemanager:
       memcached:
         frontend:
