@@ -6,12 +6,15 @@
     <?php echo $this->headLink() . PHP_EOL; ?>
     <?php echo $this->headStyle() . PHP_EOL; ?>
     
-    <link href="base.css" rel="stylesheet" type="text/css">
+    <link href="/base.css" rel="stylesheet" type="text/css">
     
-    <?php echo $this->headScript() . PHP_EOL; ?>
+    <?php echo $this->headScript()->appendFile('/js/LAB.js') . PHP_EOL; ?>
 </head>
 <body>
     <?php echo $this->layout()->content; ?>
+    <script language="JavaScript" type="text/javascript">
+    $LAB.script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js");
+    </script>
     <script language="JavaScript" type="text/javascript">
     //Facebook
     (function () {
