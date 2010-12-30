@@ -1,4 +1,4 @@
 .settings/com.aptana.editor.php.prefs
-tests/log
-docs/api
-data/logs
+tests/log/*
+docs/api/*
+data/logs/*
