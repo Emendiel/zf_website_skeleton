@@ -37,6 +37,8 @@ production:
       adapter: gettext
       content: APPLICATION_PATH/../data/locales
       scan: directory
+      options:
+        logUntranslated: true
     cachemanager:
       memcached:
         frontend:
@@ -90,3 +92,6 @@ development:
       stream:
         filterParams:
           priority: 7
+  turbine:
+    debug_level: 2
+    minify_css: false

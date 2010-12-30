@@ -8,8 +8,8 @@ php_value magic_quotes_gpc 0
 # Rewrite Rules        - need mod_rewrite
 RewriteEngine On
 
-#RewriteCond %{REQUEST_URI} ^turbine/*
-#RewriteRule 
+# CSS rewrite
+RewriteRule  ^([a-zA-Z0-9_]+).css$ /turbine/css.php?files=$1.cssp [R,L]
 
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
