@@ -11,6 +11,7 @@ RewriteEngine On
 # CSS rewrite
 RewriteRule  ^([a-zA-Z0-9_]+).css$ /turbine/css.php?files=$1.cssp [R,L]
 
+#zend dispatcher
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
