@@ -18,8 +18,8 @@ production:
     frontController:
       controllerDirectory: APPLICATION_PATH/controllers
       moduleDirectory: APPLICATION_PATH/modules
-      actionhelperpaths: 
-        Mn_Controller_Action_Helper_: APPLICATION_PATH/../library/Mn/Controller/Helper
+      actionhelperpaths:
+        Mn_Controller_Action_Helper_: APPLICATION_PATH/../library/Mn/Controller/Action/Helper
       params:
         displayExceptions: 0
     layout:
@@ -30,6 +30,8 @@ production:
       doctype: XHTML1_TRANSITIONAL
       contentType: text/html; charset=UTF-8
       charset: UTF-8
+      helperPath:
+        Mn_View_Helper_: APPLICATION_PATH/../library/Mn/View/Helper
     locale:
       default: en_US
 #      force: true
@@ -61,9 +63,9 @@ production:
        use_only_cookies: true
        remember_me_seconds: 864000
     mnFacebook:
-      appName: testzfapp
-      appId: 172116222801586
-      secret: "1a9d4b551d7feb847a24d06d45115024"
+      appName: bubbler-dev
+      appId: 160774024217
+      secret: 8c8d84dd7b83e7fc19f50ca7324d871d
       cookie: true
     log:
       stream:
