@@ -16,39 +16,6 @@
     $LAB.script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js");
     </script>
     
-    <?php echo $this->Facebook()->getJsConnect(); ?>
-    
-    <script language="JavaScript" type="text/javascript">
-    //Facebook
-    (function () {
-      //Add Facebook Connect Button Handler on click on all tag with .facebook_connect_button class
-      window.addFacebookConnectButtonAction = function addFacebookConnectButtonAction() {
-          if(window.$ && window.FB) {
-              $(document).ready(function () {
-                  $(".facebook_connect_button").click(function () {
-                      FB.login(function(response) {
-
-                          if (response.status == 'connected') {
-                              FB.getLoginStatus(function(response) {
-
-                                  if (response.session) {
-                                     //document.location = '/auth/auth/fblogin?goback='+?php echo (!empty($this->urlGoBack)) ? "'".$this->urlGoBack."'" : "encodeURI(document.location)"; ?;
-                                  }
-                              }
-                              , true);
-                          }
-                      });
-                  });
-              });
-          }
-          else {
-              setTimeout(window.addFacebookConnectButtonAction, 200);
-          }
-      }
-
-      window.addFacebookConnectButtonAction();
-
-    }());
-    </script>
+    <?php echo $this->Facebook(); ?>
 </body>
 </html>

@@ -24,6 +24,9 @@ production:
         displayExceptions: 0
     layout:
       layoutPath: APPLICATION_PATH/layouts/scripts/
+    locale:
+      default: en_US
+#      force: true
     view:
       encoding: UTF-8
       basePath: APPLICATION_PATH/views/
@@ -32,9 +35,6 @@ production:
       charset: UTF-8
       helperPath:
         Mn_View_Helper_: APPLICATION_PATH/../library/Mn/View/Helper
-    locale:
-      default: en_US
-#      force: true
     translate:
       adapter: gettext
       content: APPLICATION_PATH/../data/locales

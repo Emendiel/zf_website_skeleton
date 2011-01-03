@@ -21,11 +21,7 @@ class IndexController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {
-        //var_dump(Zend_Registry::get('Zend_Log'));
-        // action body
-        $this->getInvokeArg('bootstrap')->getResource('log')->log('test log', Zend_Log::WARN);
-        
+    {        
         $facebook = $this->getInvokeArg('bootstrap')->getResource('mnFacebook');
         
         $this->view->fbAppId = $facebook->getAppId();        
