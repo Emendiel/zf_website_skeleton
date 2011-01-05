@@ -22,9 +22,6 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {        
-        $facebook = $this->getInvokeArg('bootstrap')->getResource('mnFacebook');
-        
-        $this->view->fbAppId = $facebook->getAppId();        
     }
     
     public function registerAction()

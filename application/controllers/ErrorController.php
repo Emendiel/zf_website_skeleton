@@ -55,6 +55,8 @@ class ErrorController extends Zend_Controller_Action
             $this->view->exception = $errors->exception;
         }
         
+        $this->_helper->layout->disableLayout();
+        
         $this->view->request   = $errors->request;
     }
 
