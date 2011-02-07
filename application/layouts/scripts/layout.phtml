@@ -9,13 +9,13 @@
     <link href="base.css" rel="stylesheet" type="text/css">
     
     <?php echo $this->headScript()->appendFile('/js/LAB.js') . PHP_EOL; ?>
+    <?php echo $this->headScript()->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js') . PHP_EOL; ?>
+    <?php echo $this->headScript()->appendFile('/js/jquery.ezCookie_0.7.01.js') . PHP_EOL; ?>
+    <?php echo $this->headScript()->appendFile('/js/jquery.browserDetect.js') . PHP_EOL; ?>
+    <?php echo $this->headScript()->appendFile('/js/jquery.tools.min.js') . PHP_EOL; ?>
+    <?php echo $this->headScript()->appendFile('/js/safari-fix.js') . PHP_EOL; ?>
 </head>
 <body>
     <?php echo $this->layout()->content; ?>
-    <script language="JavaScript" type="text/javascript">
-    $LAB.script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js");
-    </script>
-    
-    <?php echo $this->Facebook(); ?>
 </body>
 </html>
