@@ -22,304 +22,272 @@ require_once 'Facebook/facebook.php';
 class Mn_Facebook_extended extends Facebook
 {
     protected $_config = array();
-    
+
     protected static $_urlMap = array(
         "apps" => "http://apps.facebook.com/"
-    );
-    
-    protected static $_requiredConfig = array(
+        );
+
+        protected static $_requiredConfig = array(
         "appName",
         "appId",
         "secret"
-    );
+        );
 
-    /**
-     * Initialize a Facebook Application.
-     *
-     * The configuration:
-     * - appType: the application type (iframe, web)
-     * - appPerms: comma separated list of requested extended perms to ask when authenticate
-     * - appName: the application name
-     * - appId: the application ID
-     * - secret: the application secret
-     * - cookie: (optional) boolean true to enable cookie support
-     * - domain: (optional) domain for the cookie
-     * - fileUpload: (optional) boolean indicating if file uploads are enabled
-     *
-     * @param Array $config the application configuration
-     */
-    public function __construct($config = array()) {
-        
-        $configMissing = array_diff(self::$_requiredConfig, array_keys($config));
-        
-        if(count($configMissing) > 0)
-        {
-            throw new Zend_Exception('Facebook configuration params are missing :' .print_r($configMissing, true));
-        }
-        
-        $this->_config = $config;
-        parent::__construct($config);
-    }
-    
-    /**
-     * Get Configuration options
-     * @return array
-     */
-    public function getOptions(){
-        return $this->_config;
-    }
-    
-  /**
-   * Get application URL
-   *
-   * @return String the URL of the application
-   */
-    public function getApplicationUrl() {
-        return self::$_urlMap['apps'] . $this->_config['appName'];
-    }
-    
-  /**
-   * Is authenticated
-   *
-   * @return boolean true if authenticated
-   */
-    public function isAuthenticated()
-    {
-        return (boolean) $this->getSession();
-    }
-    
-    public function authenticate($params = array())
-    {
-        if ( !$this->isAuthenticated() )
-        {
-            $loginConfig = array();
-            
-            if(isset($this->_config['type']) && $this->_config['type'] == 'iframe')
+        /**
+         * Initialize a Facebook Application.
+         *
+         * The configuration:
+         * - appType: the application type (iframe, web)
+         * - appPerms: comma separated list of requested extended perms to ask when authenticate
+         * - appName: the application name
+         * - appId: the application ID
+         * - secret: the application secret
+         * - cookie: (optional) boolean true to enable cookie support
+         * - domain: (optional) domain for the cookie
+         * - fileUpload: (optional) boolean indicating if file uploads are enabled
+         *
+         * @param Array $config the application configuration
+         */
+        public function __construct($config = array()) {
+
+            $configMissing = array_diff(self::$_requiredConfig, array_keys($config));
+
+            if(count($configMissing) > 0)
             {
-                $request = (isset($_SERVER['REQUEST_URI']) && ($_SERVER['REQUEST_URI']!='')) ? substr($_SERVER['REQUEST_URI'], 2) : null;
-        
-                $loginConfig['next'] = $this->getApplicationUrl() . $request;
-                $loginConfig['cancel_url'] = $this->getApplicationUrl() . $request;
+                throw new Zend_Exception('Facebook configuration params are missing :' .print_r($configMissing, true));
             }
-            
-            if(isset($this->_config['appParams']) && !empty($this->_config['appParams']))
+
+            $this->_config = $config;
+            parent::__construct($config);
+        }
+
+        /**
+         * Get Configuration options
+         * @return array
+         */
+        public function getOptions(){
+            return $this->_config;
+        }
+
+        /**
+         * Set permissions.
+         *
+         * @param array $perms list of permission
+         * @return this
+         */
+        public function setPerms($perms) {
+            $this->_config['permissions'] = $perms;
+            return $this;
+        }
+
+        /**
+         * Get the permissions
+         *
+         * @return array list of permission
+         */
+        public function getPerms() {
+            return isset($this->_config['permissions']) ? $this->_config['permissions'] : array();
+        }
+
+
+        /**
+         * Require login
+         *
+         * @param string $url
+         * @return boolean
+         */
+        public function requireLogin($url=null)
+        {
+            if ( !$this->getSession() )
             {
-                $loginConfig['req_perms'] = $this->_config['appParams'];
-            }
-            
-            $loginConfig = array_merge($loginConfig, $params);
-                    
-            $url = $this->getLoginUrl($loginConfig);
-            $this->redirect($url);
-        }
-    }
-
-    public function redirect($url)
-    {
-        if (preg_match('/^https?:\/\/([^\/]*\.)?facebook\.com(:\d+)?/i', $url))
-        {
-            // make sure facebook.com url's load in the full frame so that we don't
-            // get a frame within a frame.
-            echo "<script type=\"text/javascript\">\ntop.location.href = \"$url\";\n</script>";
-        }
-        else
-        {
-            header('Location: ' . $url);
-        }
-
-        exit;
-    }
-
-
-    /**
-     * Make an FQL.QUERY call.
-     *
-     * @param String $query the query (required)
-     * @param String $format optional response format (default XML)
-     * @return the decoded response
-     */
-    public function fql($query)
-    {
-        $params['query']=$query;
-        $params['format']='json';
-        $params['locale']='en_US';
-
-        $result = json_decode($this->jsonIntToStr($this->_oauthRequest(
-        $this->getUrl('api', 'method/fql.query'),
-        $params
-        )), true);
-
-        // results are returned, errors are thrown
-        if (is_array($result) && isset($result['error']))
-        {
-            $e = new FacebookApiException($result);
-            if ($e->getType() === 'OAuthException')
-            {
-                $this->setSession(null);
-            }
-            throw $e;
-        }
-        return $result;
-    }
-
-
-    /**
-     * Get profile pic url.
-     *
-     * @param String $userID the User FaceBook ID (required), "me" or "/me" for the current user
-     * @param String $type optional picture size : Supported types: small, normal, large, square (default square)
-     * @return the picture url
-     */
-    public function getProfilePic($uid,$type="square") {
-        $params['type'] = $type;
-
-        if($uid=='me' || $uid=='/me') {
-            $params['access_token'] = $this->getAccessToken();
-        }
-
-        $path = $uid.'/picture';
-
-        $url = $this->getURL('graph', $path, $params);
-
-        return $url;
-    }
-
-    public function getUserBasicInfos($uid='me') {
-
-        if($this->user==null) {
-
-            if (isset($_SESSION['user_basic_infos']) && $_SESSION['user_basic_infos']!=null && isset($_SESSION['user_basic_infos_updt']) && time()-$_SESSION['user_basic_infos_updt']<FB_UPDATE_DELAY) {
-                $this->user = $_SESSION['user_basic_infos'];
-            }
-            else {
-                try {
-                    $this->user = $this->api($uid,array('locale'=>'en_US'));
-                    $_SESSION['user_basic_infos'] = $this->user;
-                    $_SESSION['user_basic_infos_updt'] = time();
-                }
-                catch(FacebookApiException $e) {
-                    error_log("FacebookApiException ---> ".print_r($e,true));
-
-                    if ($e->getType() === 'OAuthException') {
-                        destroy_user_session();
-                        $this->redirect(GOSSIP_SERVER_URL);
-                        exit;
-                    }
-                    else {
-                        displayerror($e);
-                        exit;
-                    }
-
-                }
-            }
-        }
-
-        return $this->user;
-    }
-
-    public function getUserFriendsIds($uid='me') {
-
-        $ids=null;
-
-        if (isset($_SESSION['user_friends_ids']) && $_SESSION['user_friends_ids']!=null && isset($_SESSION['user_friends_ids_updt']) && time()-$_SESSION['user_friends_ids_updt']<FB_UPDATE_DELAY) {
-            $ids = $_SESSION['user_friends_ids'];
-        }
-        else {
-
-            try {
-                $user_friends = $this->api('me/friends');
-
-                if(empty($user_friends) || !is_array($user_friends)) {
-                    return null;
-                }
-
-                foreach($user_friends['data'] as $user_friend)
+                if (empty($url))
                 {
-                    $ids[$user_friend['id']] = $user_friend['id'];
+                    $url = $this->getLoginUrl(array(
+                                                    'req_perms'  => $this->getPerms()));
                 }
-
-                $_SESSION['user_friends_ids'] = $ids;
-                $_SESSION['user_friends_ids_updt'] = time();
+                $this->redirect($url);
             }
-            catch(FacebookApiException $e) {
-                error_log("FacebookApiException ---> ".print_r($e,true));
+
+            return true;
+        }
+
+        /**
+         * Redirect to a url in js if it's a facebook url with http location otherwise
+         *
+         * @param string $url
+         */
+        public function redirect($url)
+        {
+            if (preg_match('/^https?:\/\/([^\/]*\.)?facebook\.com(:\d+)?/i', $url)) {
+                // make sure facebook.com url's load in the full frame so that we don't
+                // get a frame within a frame.
+                echo '<script type="text/javascript">top.location.href = "'.$url.'";</script>';
+            } else {
+                header('Location: ' . $url);
+            }
+            exit;
+        }
+
+        /**
+         * Make an FQL.QUERY call.
+         *
+         * @param String $query the query (required)
+         * @param String $format optional response format (default XML)
+         * @param String $locale optional locale (default en_US)
+         * @return the decoded response
+         */
+        public function fql($query, $format = 'json', $locale = 'en_US')
+        {
+            $params = array();
+
+            $params['query']  = $query;
+            $params['format'] = $format;
+            $params['locale'] = $locale;
+             
+            $jsonResult = $this->jsonUidToStr($this->_oauthRequest($this->getUrl('api', 'method/fql.query'), $params));
+
+            $result = Zend_Json::decode($jsonResult);
+
+            // results are returned, errors are thrown
+            if (is_array($result) && isset($result['error']))
+            {
+                $e = new FacebookApiException($result);
 
                 if ($e->getType() === 'OAuthException') {
-                    destroy_user_session();
-                    $this->redirect(GOSSIP_SERVER_URL);
-                    exit;
-                }
-                else {
-                    displayerror($e);
-                    exit;
+                    $this->setSession(null);
                 }
 
+                throw $e;
             }
+            return $result;
         }
 
-        return $ids;
-    }
 
-    public function getUserFriendsInfos($uid='me') {
-
-        $fql_friends=null;
-
-        $ids = $this->getUserFriendsIds();
-
-        if(!is_array($ids)){
-            return null;
+        /**
+         * Hack to support long uid (convert to string)
+         *
+         * @param String $json json
+         * @return string json
+         */
+        protected function jsonUidToStr($json){
+            $pattern = "/\"uid\"[ ]*:[ ]*([0-9]+)/";
+            $replace = "\"uid\":\"$1\"";
+            $new_json = preg_replace($pattern, $replace, $json);
+            return $new_json;
         }
 
-        if (isset($_SESSION['user_friends']) && $_SESSION['user_friends']!=null && isset($_SESSION['user_friends_updt']) && time()-$_SESSION['user_friends_updt']<FB_UPDATE_DELAY) {
-            $fql_friends = $_SESSION['user_friends'];
-        }
-        else {
-            try {
-                $fql_friends    =   $this->fql('SELECT uid, sex, first_name, last_name, name FROM user WHERE uid IN('.implode(',', array_merge($ids, array(FB_USER))).') ORDER BY name ASC');
+        /**
+         * Get profile pic url.
+         *
+         * @param String $userID optional User FaceBook ID, "me" or "/me" for the current user (default me)
+         * @param String $type optional picture size : small, normal, large, square (default square)
+         * @return the picture url
+         */
+        public function getProfilePic($uid = 'me', $type = 'square')
+        {
+            $params         = array();
+            $params['type'] = $type;
 
-                if(empty($fql_friends)){
-                    return null;
-                }
-
-                $_SESSION['user_friends'] = $fql_friends;
-                $_SESSION['user_friends_updt'] = time();
-            }
-            catch(FacebookApiException $e) {
-                error_log("FacebookApiException ---> ".print_r($e,true));
-
-                if ($e->getType() === 'OAuthException') {
-                    destroy_user_session();
-                    $this->redirect(GOSSIP_SERVER_URL);
-                    exit;
-                }
-                else {
-                    displayerror($e);
-                    exit;
-                }
-
+            if( $uid == 'me' || $uid == '/me')
+            {
+                $params['access_token'] = $this->getAccessToken();
             }
 
+            $path = $uid.'/picture';
+
+            return $this->getURL('graph', $path, $params);
         }
 
-        return $fql_friends;
-    }
+        /**
+         * Get User Information
+         *
+         * @param string $uid
+         * @param array $params
+         * @return array
+         */
+        public function getUserInfo($uid = 'me' , $params = array('locale' => 'en_US'))
+        {
+            if(!empty($this->user[$uid]))
+            {
+                return $this->user[$uid];
+            }
 
-    public function getCurrentUrl_ext() {
+            $this->user[$uid] = $this->api($uid, $params);
 
-        $newUrl=FB_APP_URL; //Nouvelle adresse
+            return $this->user[$uid];
+        }
 
-        if (isset($_SERVER['REQUEST_URI']) && ($_SERVER['REQUEST_URI']!=''))
-        $newUrl.=substr($_SERVER['REQUEST_URI'],2);
+        /**
+         * Get list of friend uid
+         *
+         * @param string $uid
+         * @return array
+         */
+        public function getUserFriends($uid = 'me')
+        {
+            if(!empty($this->friends[$uid]))
+            {
+                return $this->friends[$uid];
+            }
 
-        return $newUrl;
-    }
+            $this->friends[$uid] = $this->api('me/friends');
 
-    public function jsonIntToStr($json){
-        $pattern = "/\"uid\"[ ]*:[ ]*([0-9]+)/";
-        $replace = "\"uid\":\"$1\"";
-        $new_json = preg_replace($pattern, $replace, $json);
-        return $new_json;
-    }
+            return $this->friends[$uid];
+        }
+
+        
+        //!\\ HACK use of urldecode on cookie value, bug PHP FB API
+        /**
+         * Get the session object. This will automatically look for a signed session
+         * sent via the signed_request, Cookie or Query Parameters if needed.
+         *
+         * @return Array the session
+         */
+        public function getSession() {
+            if (!$this->sessionLoaded) {
+                $session = null;
+                $write_cookie = true;
+
+                // try loading session from signed_request in $_REQUEST
+                $signedRequest = $this->getSignedRequest();
+                if ($signedRequest) {
+                    // sig is good, use the signedRequest
+                    $session = $this->createSessionFromSignedRequest($signedRequest);
+                }
+
+                // try loading session from $_REQUEST
+                if (!$session && isset($_REQUEST['session'])) {
+                    $session = json_decode(
+                    get_magic_quotes_gpc()
+                    ? stripslashes($_REQUEST['session'])
+                    : $_REQUEST['session'],
+                    true
+                    );
+                    $session = $this->validateSessionObject($session);
+                }
+
+                // try loading session from cookie if necessary
+                if (!$session && $this->useCookieSupport()) {
+                    $cookieName = $this->getSessionCookieName();
+                    if (isset($_COOKIE[$cookieName])) {
+                        $session = array();
+                        parse_str(trim(
+                        get_magic_quotes_gpc()
+                        ? urldecode(stripslashes($_COOKIE[$cookieName]))
+                        : urldecode($_COOKIE[$cookieName]),
+            '"'
+            ), $session);
+            $session = $this->validateSessionObject($session);
+            // write only if we need to delete a invalid session cookie
+            $write_cookie = empty($session);
+                    }
+                }
+
+                $this->setSession($session, $write_cookie);
+            }
+
+            return $this->session;
+        }
 }
 
 ?>
