@@ -7,7 +7,7 @@
     <?php echo $this->headStyle() . PHP_EOL; ?>
     
     <link href="base.css" rel="stylesheet" type="text/css">
-    
+    <?php echo $this->headScript()->appendFile('/shared/js-config') . PHP_EOL; ?>
     <?php echo $this->headScript()->appendFile('/js/LAB.js') . PHP_EOL; ?>
     <?php echo $this->headScript()->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js') . PHP_EOL; ?>
     <?php echo $this->headScript()->appendFile('/js/jquery.ezCookie_0.7.01.js') . PHP_EOL; ?>

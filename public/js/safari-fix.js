@@ -4,12 +4,12 @@
 	if ($.browserDetect.browser == "Safari") {
 		var fbCookie, fbSafariForm;
 
-		fbCookie = $.cookie('fbs_' + config.fb.app_id);
+		fbCookie = $.cookie('fbs_' + websiteConfig.fb.appId);
 
-		if (!fbCookie && config.user.logged_in) {
+		if (!fbCookie && websiteConfig.user.loggedIn) {
 			fbSafariForm = document.createElement("form");
 			fbSafariForm.action = location.protocol + '//' + location.host
-					+ '/redirect' + location_search + "&return_to="
+					+ '/shared/redirect' + location_search + "&redirectTo="
 					+ encodeURI(baseURL + "/" + location.pathname);
 			fbSafariForm.method = "POST";
 			document.body.appendChild(fbSafariForm);

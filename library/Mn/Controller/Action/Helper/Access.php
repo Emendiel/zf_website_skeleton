@@ -40,6 +40,7 @@ class Mn_Controller_Action_Helper_Access extends Zend_Controller_Action_Helper_A
      */
     public function preDispatch()
     {
+        echo 'toto';
         $resourceId = !empty($this->resourceId) ? $this->resourceId : $this->getRequest()->getControllerName();
 
         $permissionName = isset($this->permissionMap[$this->getRequest()->getActionName()]) ? 
@@ -57,8 +58,6 @@ class Mn_Controller_Action_Helper_Access extends Zend_Controller_Action_Helper_A
             //TODO: improve redirect for forbidden access, exception ?
             $this->_actionController->getHelper('redirector')->gotoUrlAndExit('/index/forbidden');
         }
-        
-        parent::preDispatch();
     }
     
      /**

@@ -61,6 +61,14 @@ class Mn_Facebook_extended extends Facebook
         parent::__construct($config);
     }
     
+    /**
+     * Get Configuration options
+     * @return array
+     */
+    public function getOptions(){
+        return $this->_config;
+    }
+    
   /**
    * Get application URL
    *

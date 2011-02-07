@@ -17,7 +17,7 @@ class IndexController extends Zend_Controller_Action
 {
     public function init()
     {
-        $this->_helper->access->permissionDisabled = array('all');
+
     }
 
     public function indexAction()
