@@ -43,6 +43,7 @@ class SharedController extends Zend_Controller_Action
                        'fb'   => $configFb);
        
        $this->_helper->layout->disableLayout();
+       $this->getResponse()->setHeader('content-type', 'text/javascript');
        $this->view->jsonConfig = Zend_Json::encode($config);
     }
 }
