@@ -63,10 +63,14 @@ production:
        use_only_cookies: true
        remember_me_seconds: 864000
     mnFacebook:
-      appName: bubbler-dev
-      appId: 160774024217
-      secret: 8c8d84dd7b83e7fc19f50ca7324d871d
+      appName: mn-skeleton
+      appId: 172116222801586
+      secret: 1a9d4b551d7feb847a24d06d45115024
       cookie: true
+    mnSdk:
+      uri: api.sandbox.mambanation.com
+      username: mambavoice
+      password: m1m36
     log:
       stream:
         writerName: Stream

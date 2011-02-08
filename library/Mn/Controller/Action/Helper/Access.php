@@ -40,7 +40,6 @@ class Mn_Controller_Action_Helper_Access extends Zend_Controller_Action_Helper_A
      */
     public function preDispatch()
     {
-        echo 'toto';
         $resourceId = !empty($this->resourceId) ? $this->resourceId : $this->getRequest()->getControllerName();
 
         $permissionName = isset($this->permissionMap[$this->getRequest()->getActionName()]) ? 

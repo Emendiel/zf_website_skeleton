@@ -207,7 +207,7 @@ class Mn_Facebook_extended extends Facebook
          */
         public function getUserInfo($uid = 'me' , $params = array('locale' => 'en_US'))
         {
-            if(!empty($this->user[$uid]))
+            if(isset($this->user[$uid]) && !empty($this->user[$uid]))
             {
                 return $this->user[$uid];
             }
