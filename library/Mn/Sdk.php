@@ -20,14 +20,28 @@ class Mn_Sdk
 {
     protected $_options = null;
 
+    /**
+     * Constructor
+     *
+     * @param array $options Options (optional)
+     */
     public function __construct($options = array()){
         $this->setOptions($options);
     }
-    
+
+    /**
+     * Get options
+     *
+     * @return array Options
+     */
     public function getOptions(){
         return $this->_options;
     }
-    
+
+    /**
+     *
+     *
+     */    
     public function setOptions($options){
         if(is_array($options)){
             $options = new Zend_Config($options);
@@ -40,7 +54,13 @@ class Mn_Sdk
         
         return $this;
     }
-    
+
+    /**
+     * Format uri to make request
+     * Check mandatory options and do exception if missing value
+     *
+     * @return string Formated uri
+     */    
     public function getUri(){
         if(empty($this->_options->uri) || empty($this->_options->username) || empty($this->_options->password)){
             throw new Exception('Config options missing : uri, user, password needed');
@@ -51,9 +71,46 @@ class Mn_Sdk
         return $uri;
     }
     
+    /**
+     * Check response
+     * Check if response is valid and return body.
+     * If response code is different to 200 do exception
+     *
+     * @response Zend_Http_Response Response to request
+     * @return response body to json or do exception
+     */
+     public function response($response){
+     
+        print_r($response);exit;
+     
+        $status = $response->getStatus();
+        
+        if($response->getStatus() == '200'){
+            return json_decode($response->getBody());
+        }
+        else{
+            throw new Exception($response->getMessage());
+        }
+        
+        return;
+     }
+    
+    /**
+     * Send a request with rest client
+     * TODO: Find other solution to set sdk version in path
+     *
+     * @param string $path Path to request
+     * @param string $method Method to request
+     * @param array $params Params to request (optional)
+     * @return json response
+     */
     public function request($path, $method = 'GET', $params = array()){
         // Add string /v2 because Zend_Rest drop this part of uri
         $path = '/v2' . $path;
+        
+        if(!empty($this->_options->signedRequest)){
+            $params['signed_request'] = $this->_options->signedRequest->oauth_token;
+        }
         
         $oZend_Rest_Client = new Zend_Rest_Client();
         $oZend_Rest_Client->setUri($this->getUri());
@@ -75,6 +132,6 @@ class Mn_Sdk
                 throw new Exception("Invalid method");
         }
         
-        return $response;
+        return $this->response($response);
     }
 }

@@ -14,6 +14,12 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
         
         if($Facebook->getSession()){
             if($Facebook->getUser()){
+                $Sdk = $oResourceHelper->direct('mnSdk');
+                
+                $options = $Sdk->getOptions()->toArray();
+                $options['signedRequest'] = $Facebook->getSignedRequest();
+                $Sdk->setOptions($options);
+                
                 $FbUserInfo = $Facebook->getUserInfo();
                 
                 // Set website locale with facebook locale

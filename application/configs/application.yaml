@@ -69,7 +69,7 @@ production:
       cookie: true
     mnSdk:
       uri: api.sandbox.mambanation.com
-      username: mambavoice
+      username: skeleton
       password: m1m36
     log:
       stream:
