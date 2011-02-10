@@ -80,9 +80,6 @@ class Mn_Sdk
      * @return response body to json or do exception
      */
      public function response($response){
-     
-        print_r($response);exit;
-     
         $status = $response->getStatus();
         
         if($response->getStatus() == '200'){
