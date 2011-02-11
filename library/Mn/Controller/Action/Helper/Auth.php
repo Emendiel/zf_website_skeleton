@@ -6,24 +6,27 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
     {
         $oResourceHelper = new Mn_Controller_Action_Helper_Resource();
         $oResourceHelper->setActionController($this->getActionController());
-
-        ////////////////////////////////////////////////////////////////////////
-        /////////////////////////  Check facebook auth  ////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        $Facebook = $oResourceHelper->direct('mnFacebook');
         
-        if($Facebook->getSession()){
-            if($Facebook->getUser()){
-                $Sdk = $oResourceHelper->direct('mnSdk');
-                
-                $options = $Sdk->getOptions()->toArray();
-                $options['signedRequest'] = $Facebook->getSignedRequest();
-                $Sdk->setOptions($options);
-                
-                $FbUserInfo = $Facebook->getUserInfo();
-                
-                // Set website locale with facebook locale
-                Zend_Registry::get('Zend_Translate')->setLocale($FbUserInfo['locale']);
+        $auth = Zend_Auth::getInstance();
+    
+        if ($auth->hasIdentity())
+        {
+            $oResourceHelper->direct('Log')->info("User has identity");
+            $oIdentity = $auth->getIdentity();
+        }
+        else{
+            $oResourceHelper->direct('Log')->info("User has not identity");
+            $oSdk = $oResourceHelper->direct('mnSdk');
+            $Facebook = $oResourceHelper->direct('mnFacebook');
+            $oAdapter = new Mn_Auth_Adapter_Sdkfb($oSdk, $Facebook);
+            $oResult = $auth->authenticate($oAdapter);
+
+            if($oResult->isValid()){
+                $oResourceHelper->direct('Log')->info("Auth success");
+            }
+            else
+            {
+                $oResourceHelper->direct('Log')->info("Auth fail");
             }
         }
     }
