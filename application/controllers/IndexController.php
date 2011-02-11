@@ -17,28 +17,10 @@ class IndexController extends Zend_Controller_Action
 {
     public function init()
     {
-
     }
 
     public function indexAction()
     {
-    }
-    
-    public function registerAction()
-    {
-
-    }
-    
-    public function phpinfoAction()
-    {
-        phpinfo();
-        exit;
-    }
-
-    public function forbiddenAction()
-    {
-        echo "forbidden";
-        exit;
     }
 }
 

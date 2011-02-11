@@ -12,7 +12,6 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
         if ($auth->hasIdentity())
         {
             $oResourceHelper->direct('Log')->info("User has identity");
-            $oIdentity = $auth->getIdentity();
         }
         else{
             $oResourceHelper->direct('Log')->info("User has not identity");
@@ -28,6 +27,11 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
             {
                 $oResourceHelper->direct('Log')->info("Auth fail");
             }
+            
+            
         }
+        $oIdentity = $auth->getIdentity();
+        echo $oIdentity->getName();exit;
+//        echo $oIdentity->__get('name');exit;
     }
 }
