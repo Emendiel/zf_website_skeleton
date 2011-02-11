@@ -5,7 +5,7 @@ class Mn_Auth_Adapter_Sdkfb_User
     /**
     * Data of the user
     *
-    * @var array
+    * @var object
     */
     protected $_data = null;
 

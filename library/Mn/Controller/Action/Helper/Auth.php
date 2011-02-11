@@ -30,8 +30,5 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
             
             
         }
-        $oIdentity = $auth->getIdentity();
-        echo $oIdentity->getName();exit;
-//        echo $oIdentity->__get('name');exit;
     }
 }
