@@ -104,7 +104,7 @@ class Mn_Sdk
         $path = '/v2' . $path;
         
         if(!empty($this->_options->signedRequest)){
-            $params['signed_request'] = $this->_options->signedRequest->oauth_token;
+            $params['signed_request'] = $this->_options->signedRequest;
         }
         
         $oZend_Rest_Client = new Zend_Rest_Client();

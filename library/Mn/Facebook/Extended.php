@@ -214,7 +214,7 @@ class Mn_Facebook_extended extends Facebook
 
             $this->user[$uid] = $this->api($uid, $params);
 
-            return $this->user[$uid];
+            return $this->user;
         }
 
         /**
@@ -232,7 +232,7 @@ class Mn_Facebook_extended extends Facebook
 
             $this->friends[$uid] = $this->api('me/friends');
 
-            return $this->friends[$uid];
+            return $this->friends;
         }
 
         
