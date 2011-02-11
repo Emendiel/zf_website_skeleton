@@ -8,6 +8,10 @@ class Mn_Auth_Adapter_Sdkfb_User
     * @var object
     */
     protected $_data = null;
+    
+    public function setData($oData){
+        $this->_data = $oData;
+    }
 
     /**
      * Retrieve data of the user

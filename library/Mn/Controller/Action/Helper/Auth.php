@@ -27,8 +27,6 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
             {
                 $oResourceHelper->direct('Log')->info("Auth fail");
             }
-            
-            
         }
     }
 }

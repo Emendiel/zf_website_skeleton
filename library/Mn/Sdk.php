@@ -86,10 +86,8 @@ class Mn_Sdk
             return json_decode($response->getBody());
         }
         else{
-            throw new Exception($response->getMessage());
+            throw new Exception($response->getBody(), $response->getStatus());
         }
-        
-        return;
      }
     
     /**
