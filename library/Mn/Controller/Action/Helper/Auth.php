@@ -35,16 +35,11 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
      */
     public function init()
     {
-        $this->_auth = Zend_Auth::getInstance();
+        $this->_sdk      = Zend_Registry::get('Mn_Sdk');
+        $this->_facebook = Zend_Registry::get('Mn_Facebook');
+        $this->_log      = Zend_Registry::get('Mn_Log');
 
-        $oResourceHelper = new Mn_Controller_Action_Helper_Resource();
-        $oResourceHelper->setActionController($this->getActionController());
-
-        $this->_sdk      = $oResourceHelper->direct('mnSdk');
-        $this->_facebook = $oResourceHelper->direct('mnFacebook');
-        $this->_log      = $oResourceHelper->direct('log');
-        
-        $this->_authAdapter = new Mn_Auth_Adapter_Sdkfb($this->_sdk, $this->_facebook);
+        $this->_authAdapter = new Mn_Auth_Adapter_Sdkfb();
     }
 
     public function preDispatch()
@@ -56,7 +51,7 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
                 $this->_log->info("User has an identity");
                 return;
             }
-            
+
             $this->_log->info("Invalid identity");
             $this->logout();
         }
@@ -78,7 +73,10 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
             $this->_log->info("Auth success");
             return;
         }
-        $this->_log->info("Auth fail");
+
+        //log the error
+        $logPriority = ($oResult->getCode() === Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND || $oResult->getCode() === Zend_Auth_Result::FAILURE_UNCATEGORIZED) ? 3 : 6;
+        $this->_log->log("Auth fail, " . $oResult->getCode(). ': ' . implode(' / ', $oResult->getMessages()), $logPriority);
     }
 
     /**

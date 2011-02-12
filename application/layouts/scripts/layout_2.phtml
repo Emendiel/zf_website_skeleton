@@ -1,0 +1,53 @@
+<?php echo $this->doctype() . PHP_EOL; ?>
+<html>
+<head>
+    <?php echo $this->headTitle() . PHP_EOL; ?>
+    <?php echo $this->headMeta() . PHP_EOL; ?>
+    <?php echo $this->headLink() . PHP_EOL; ?>
+    <?php echo $this->headStyle() . PHP_EOL; ?>
+    
+    <link href="base.css" rel="stylesheet" type="text/css">
+    
+    <?php echo $this->headScript()->appendFile('/js/LAB.js') . PHP_EOL; ?>
+</head>
+<body>
+    <?php echo $this->layout()->content; ?>
+    <script language="JavaScript" type="text/javascript">
+    $LAB.script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
+    .wait(function(){
+    try{
+        $.ajax({
+          url: 'http://skeleton2.dev/test.txt',//'/myfirstmodule/index',
+          dataType: 'text',
+          success: function(data, textStatus, xhr){
+            alert('ok');
+            $("#toto").html(data);
+          },
+          error: function(req, message){
+            alert("error - "+message);
+          },
+          cache: false,
+          xhr: function() {
+                  var xhr = (typeof XDomainRequest != "undefined") ? new XDomainRequest() : new window.XMLHttpRequest();
+                  console.log(xhr);
+                  return xhr;
+               }
+        });
+    }catch(e){
+        alert("exception - "+e);
+    }
+    /*
+    xdr = new XDomainRequest();
+    xdr.open("get", 'http://skeleton2.dev/test.txt');
+    xdr.onload = function(){
+            alert('ok'+xdr.responseText);
+            $("#toto").html(xdr.responseText);
+          };
+    xdr.send();
+    */
+    });
+    </script>
+    <div id="toto">wait</div>
+    <?php //echo $this->Facebook(); ?>
+</body>
+</html>

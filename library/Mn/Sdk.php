@@ -83,7 +83,7 @@ class Mn_Sdk
         $status = $response->getStatus();
         
         if($response->getStatus() == '200'){
-            return json_decode($response->getBody());
+            return json_decode($response->getBody(), true);
         }
         else{
             throw new Exception($response->getBody(), $response->getStatus());

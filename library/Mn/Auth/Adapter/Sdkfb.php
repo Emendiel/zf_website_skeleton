@@ -14,17 +14,32 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
      * @var Mn_Facebook_extended
      */
     protected $_facebook;
+    
+    /**
+     * Logs Manager
+     *
+     * @var Zend_Log
+     */
+    protected $_log;
+    
+    /**
+     * Identity
+     *
+     * @var Mn_Auth_Identity
+     */
+    protected $_identity;
 
     /**
      * Constructor
      *
-     * @param n_Sdk $oSdk
-     * @param mixed $oFacebook
      */
-    public function __construct($oSdk, $oFacebook)
+    public function __construct()
     {
-        $this->_sdk      = $oSdk;
-        $this->_facebook = $oFacebook;
+        $this->_sdk      = Zend_Registry::get('Mn_Sdk');
+        $this->_facebook = Zend_Registry::get('Mn_Facebook');
+        $this->_log      = Zend_Registry::get('Mn_Log');
+        
+        $this->_identity  = new Mn_Auth_Identity('facebook');
     }
 
     /**
@@ -33,38 +48,48 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
      */
     public function authenticate()
     {
+        
+        $aSignedRequest = $this->_facebook->getSignedRequest();
+        
+        $this->_log->debug('signed_request: ' . print_r($aSignedRequest, true));
 
-        $this->setUserLocale();
-        $oAuthUser  = new Mn_Auth_Adapter_Sdkfb_User();
-
-        // Test if user has a facebook session
+        // Test if user has not a facebook session
         if(!$this->_facebook->getSession()){
-            return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_UNCATEGORIZED, null, array('no facebook session'));
+            
+            //1. user is not logged on Facebook
+            if(empty($aSignedRequest))
+            {
+                return new Zend_Auth_Result(Zend_Auth_Result::FAILURE, $this->_identity, array('not logged on Facebook'));
+            }
+            
+            //2. user is logged on facebook but has not accepted the application
+            //we know its country, locale and age range
+            $this->setUserLocale();
+            $this->_identity->setData(array('facebook_session' => $aSignedRequest['user']));
+            return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID, $this->_identity, array('not accepted the application'));
         }
 
-        // Test is we can get user from facebook (user has accepted the application
-        if(!$this->_facebook->getUser()){
-            return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_UNCATEGORIZED, null, array('no user send by facebook'));
-        }
-
+        //user is logged on Facebook, log it in app
+        $this->setUserLocale();
         $this->signedSdkRequest();
 
+        //get user information from SDK
         try{
             $oUserSdk = $this->_sdk->request('/users/find_by', 'GET', array('facebook_id' => $this->_facebook->getUser()));
 
-            $oAuthUser->setData($oUserSdk);
+            $oUserSdk['facebook_session'] = $aSignedRequest['user'];
+            $this->_identity->setData($oUserSdk);
 
-            return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $oAuthUser, array());
+            return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $this->_identity, array());
         }
         catch(Exception $e)
         {
-            error_log($e);
             if($e->getCode() == '404')
             {
-                return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND, null, array('user does not exist'));
+                return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND, $this->_identity, array('user does not exist in SDK'));
             }
 
-            return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_UNCATEGORIZED, null, array('error during SDK request', $e->getCode(), $e->getMessage()));
+            return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_UNCATEGORIZED, $this->_identity, array('error during SDK request', $e->getCode(), $e->getMessage()));
         }
     }
 

@@ -26,6 +26,8 @@ require_once 'Zend/Application/Resource/ResourceAbstract.php';
  */
 class Mn_Application_Resource_Mnfacebook extends Zend_Application_Resource_ResourceAbstract
 {
+    const DEFAULT_REGISTRY_KEY = 'Mn_Facebook';
+
     /**
      * @var Facebook
      */
@@ -43,10 +45,18 @@ class Mn_Application_Resource_Mnfacebook extends Zend_Application_Resource_Resou
 
     public function getMnFacebook()
     {
-        if (null === $this->_facebook) {
+        if (null === $this->_facebook)
+        {
             $options = $this->getOptions();
             $this->_facebook = Mn_Facebook::factory($options);
+
+            //set in registry
+            $key = (isset($options['registry_key']) && !is_numeric($options['registry_key']))
+            ? $options['registry_key']
+            : self::DEFAULT_REGISTRY_KEY;
+            Zend_Registry::set($key, $this->_facebook);
         }
+
         return $this->_facebook;
     }
 }

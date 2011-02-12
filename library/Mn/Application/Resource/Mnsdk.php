@@ -26,6 +26,8 @@ require_once 'Zend/Application/Resource/ResourceAbstract.php';
  */
 class Mn_Application_Resource_Mnsdk extends Zend_Application_Resource_ResourceAbstract
 {
+    const DEFAULT_REGISTRY_KEY = 'Mn_Sdk';
+
     /**
      * @var Sdk
      */
@@ -43,10 +45,18 @@ class Mn_Application_Resource_Mnsdk extends Zend_Application_Resource_ResourceAb
 
     public function getMnSdk()
     {
-        if (null === $this->_sdk) {
+        if (null === $this->_sdk)
+        {
             $options = $this->getOptions();
             $this->_sdk = new Mn_Sdk($options);
+
+            //set in registry
+            $key = (isset($options['registry_key']) && !is_numeric($options['registry_key']))
+            ? $options['registry_key']
+            : self::DEFAULT_REGISTRY_KEY;
+            Zend_Registry::set($key, $this->_sdk);
         }
+
         return $this->_sdk;
     }
 }

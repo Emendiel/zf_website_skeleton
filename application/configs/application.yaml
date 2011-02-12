@@ -69,7 +69,7 @@ production:
       uri: api.sandbox.mambanation.com
       username: skeleton
       password: m1m36
-    log:
+    mnlog:
       stream:
         writerName: Stream
         writerParams:
@@ -77,6 +77,16 @@ production:
         filterName: Priority
         filterParams:
           priority: 4
+      mail:
+        writerName: Mail
+        writerParams:
+          charset: UTF-8
+          from: sender@website.com
+          to: alert-receiver@website.com
+          subjectPrependText: '[ALERT WEBSITE] - Critical error occured - Errors from script"
+        filterName: Priority
+        filterParams:
+          priority: 2
           
 testing:
   _extends: production
@@ -92,7 +102,7 @@ development:
     frontController:
       params:
         displayExceptions: 1
-    log:
+    mnlog:
       stream:
         filterParams:
           priority: 7

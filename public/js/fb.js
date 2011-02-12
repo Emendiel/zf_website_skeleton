@@ -1,0 +1,1 @@
+FB.Canvas.setSize();

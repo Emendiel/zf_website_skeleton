@@ -19,7 +19,7 @@ require_once 'Facebook/facebook.php';
  * @copyright  Copyright (c) 2004-2010 Mimesis Republic
  */
 
-class Mn_Facebook_extended extends Facebook
+class Mn_Facebook_Extended extends Facebook
 {
     protected $_config = array();
 
