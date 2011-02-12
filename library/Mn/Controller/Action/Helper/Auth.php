@@ -26,9 +26,9 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
     /**
      * Logs Manager
      *
-     * @var Zend_Log
+     * @var Zend_logger
      */
-    protected $_log;
+    protected $_logger;
 
     /**
      * Constructor
@@ -37,7 +37,7 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
     {
         $this->_sdk      = Zend_Registry::get('Mn_Sdk');
         $this->_facebook = Zend_Registry::get('Mn_Facebook');
-        $this->_log      = Zend_Registry::get('Mn_Log');
+        $this->_logger   = Zend_Registry::get('Mn_Log');
 
         $this->_authAdapter = new Mn_Auth_Adapter_Sdkfb();
     }
@@ -48,11 +48,11 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
         {
             if($this->_authAdapter->isIdentityValid())
             {
-                $this->_log->info("User has an identity");
+                $this->_logger->info("User has an identity");
                 return;
             }
 
-            $this->_log->info("Invalid identity");
+            $this->_logger->info("Invalid identity");
             $this->logout();
         }
 
@@ -64,19 +64,19 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
      */
     public function logIn()
     {
-        $this->_log->info("Authenticate");
+        $this->_logger->info("Authenticate");
 
         $oResult  = Zend_Auth::getInstance()->authenticate($this->_authAdapter);
 
         if($oResult->isValid())
         {
-            $this->_log->info("Auth success");
+            $this->_logger->info("Auth success");
             return;
         }
 
         //log the error
-        $logPriority = ($oResult->getCode() === Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND || $oResult->getCode() === Zend_Auth_Result::FAILURE_UNCATEGORIZED) ? 3 : 6;
-        $this->_log->log("Auth fail, " . $oResult->getCode(). ': ' . implode(' / ', $oResult->getMessages()), $logPriority);
+        $logPriority = ($oResult->getCode() === Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND || $oResult->getCode() === Zend_Auth_Result::FAILURE_UNCATEGORIZED) ? Zend_Log::ERR : Zend_Log::INFO;
+        $this->_logger->log("Auth fail, " . $oResult->getCode(). ': ' . implode(' / ', $oResult->getMessages()), $logPriority);
     }
 
     /**
@@ -84,7 +84,7 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
      */
     public function logOut()
     {
-        $this->_log->info("log out");
+        $this->_logger->info("log out");
         $this->_authAdapter->logOut();
     }
 }

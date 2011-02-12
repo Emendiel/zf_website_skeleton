@@ -42,6 +42,9 @@ extends Zend_Application_Resource_Log
         unset($options['registry_key']);
         
         $log = $this->getLog();
+        
+        //register default PHP error handler on Zend_Log
+        $log->registerErrorHandler();
 
         Zend_Registry::set($key, $log);
 

@@ -18,9 +18,9 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
     /**
      * Logs Manager
      *
-     * @var Zend_Log
+     * @var Zend_loggergger
      */
-    protected $_log;
+    protected $_logger;
     
     /**
      * Identity
@@ -37,7 +37,7 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
     {
         $this->_sdk      = Zend_Registry::get('Mn_Sdk');
         $this->_facebook = Zend_Registry::get('Mn_Facebook');
-        $this->_log      = Zend_Registry::get('Mn_Log');
+        $this->_logger   = Zend_Registry::get('Mn_Log');
         
         $this->_identity  = new Mn_Auth_Identity('facebook');
     }
@@ -51,7 +51,7 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
         
         $aSignedRequest = $this->_facebook->getSignedRequest();
         
-        $this->_log->debug('signed_request: ' . print_r($aSignedRequest, true));
+        $this->_logger->debug('signed_request: ' . print_r($aSignedRequest, true));
 
         // Test if user has not a facebook session
         if(!$this->_facebook->getSession()){
