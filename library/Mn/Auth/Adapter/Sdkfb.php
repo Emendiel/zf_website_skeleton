@@ -14,14 +14,14 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
      * @var Mn_Facebook_extended
      */
     protected $_facebook;
-    
+
     /**
      * Logs Manager
      *
      * @var Zend_loggergger
      */
     protected $_logger;
-    
+
     /**
      * Identity
      *
@@ -38,7 +38,7 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
         $this->_sdk      = Zend_Registry::get('Mn_Sdk');
         $this->_facebook = Zend_Registry::get('Mn_Facebook');
         $this->_logger   = Zend_Registry::get('Mn_Log');
-        
+
         $this->_identity  = new Mn_Auth_Identity('facebook');
     }
 
@@ -48,20 +48,20 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
      */
     public function authenticate()
     {
-        
+
         $aSignedRequest = $this->_facebook->getSignedRequest();
-        
+
         $this->_logger->debug('signed_request: ' . print_r($aSignedRequest, true));
 
         // Test if user has not a facebook session
         if(!$this->_facebook->getSession()){
-            
+
             //1. user is not logged on Facebook
             if(empty($aSignedRequest))
             {
                 return new Zend_Auth_Result(Zend_Auth_Result::FAILURE, $this->_identity, array('not logged on Facebook'));
             }
-            
+
             //2. user is logged on facebook but has not accepted the application
             //we know its country, locale and age range
             $this->setUserLocale();
@@ -116,18 +116,24 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
     /**
      * Set User Local from Facebook
      */
-    public function setUserLocale()
+    public function setUserLocale($locale = null)
     {
         $signedRequest = $this->_facebook->getSignedRequest();
 
-        if(isset($signedRequest['locale']))
+        if(empty($locale) && isset($signedRequest['locale']))
         {
-            Zend_Registry::get('Zend_Translate')->setLocale($signedRequest['locale']);
+            $locale = $signedRequest['locale'];
+        }
+        
+        if(!empty($locale) && Zend_Locale::isLocale($locale))
+        {
+            $localeZend_Registry::get('Zend_Translate')->setLocale($locale);
         }
     }
 
     /**
      * Is identity valid
+     * also sync user locale
      *
      * @return boolean
      */
@@ -148,6 +154,10 @@ class Mn_Auth_Adapter_Sdkfb implements Zend_Auth_Adapter_Interface
         {
             return false;
         }
+
+        //sync user locale
+        $this->setUserLocale();
+
         return true;
     }
 

@@ -31,7 +31,7 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
     protected $_logger;
 
     /**
-     * Constructor
+     * Init
      */
     public function init()
     {
@@ -47,13 +47,13 @@ class Mn_Controller_Action_Helper_Auth extends Zend_Controller_Action_Helper_Abs
         if (Zend_Auth::getInstance()->hasIdentity())
         {
             if($this->_authAdapter->isIdentityValid())
-            {
+            {        
                 $this->_logger->info("User has an identity");
                 return;
             }
 
             $this->_logger->info("Invalid identity");
-            $this->logout();
+            $this->logOut();
         }
 
         $this->logIn();

@@ -83,7 +83,7 @@ class Mn_Sdk
         $status = $response->getStatus();
         
         if($response->getStatus() == '200'){
-            return json_decode($response->getBody(), true);
+            return Zend_Json::decode($response->getBody(), Zend_Json::TYPE_ARRAY);
         }
         else{
             throw new Exception($response->getBody(), $response->getStatus());

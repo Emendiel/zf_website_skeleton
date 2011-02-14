@@ -146,7 +146,7 @@ class Mn_Facebook_Extended extends Facebook
              
             $jsonResult = $this->jsonUidToStr($this->_oauthRequest($this->getUrl('api', 'method/fql.query'), $params));
 
-            $result = Zend_Json::decode($jsonResult);
+            $result = Zend_Json::decode($jsonResult, Zend_Json::TYPE_ARRAY);
 
             // results are returned, errors are thrown
             if (is_array($result) && isset($result['error']))
