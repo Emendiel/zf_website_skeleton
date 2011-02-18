@@ -21,7 +21,6 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        var_dump(Zend_Auth::getInstance()->getIdentity());
+        var_dump(Zend_Registry::get('Mn_Thrift')->getThrift('test')->listRooms());exit;
     }
 }
-

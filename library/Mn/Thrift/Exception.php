@@ -17,7 +17,7 @@ require_once 'Zend/Application/Exception.php';
  * @category   Zend
  * @package    Zend_Thrift
  */
-class Mn_Thrift_Exception extends Zend_Thrift_Exception
+class Mn_Thrift_Exception extends Zend_Exception
 {
     
 }

@@ -27,7 +27,10 @@ class Mn_Thrift {
                         'options' => null),
       'transport' => array(
                         'class'   => 'TBufferedTransport',
-                        'options' => null)
+                        'options' => null),
+	  'protocol'  => array(
+	                     'class' => 'TBinaryProtocol',
+	                     'options' => null)
 	);
 
 
@@ -51,6 +54,20 @@ class Mn_Thrift {
 	 * @var mixed
 	 */
 	protected $_transport = null;
+	
+	/**
+	 * Thrift socket Object
+	 *
+	 * @var mixed
+	 */
+	protected $_socket = null;
+	
+	/**
+	 * Thrift protocol Object
+	 *
+	 * @var mixed
+	 */
+	protected $_protocol = null;
 
 	/**
 	 * Construct Mn_Thrift
@@ -83,11 +100,11 @@ class Mn_Thrift {
 				$options = new Zend_Config($options);
 			}
 			else {
-				throw Mn_Thrift_Exception('options argument must be a Zend_Config object or an array');
+				throw new Mn_Thrift_Exception('options argument must be a Zend_Config object or an array');
 			}
 		}
 
-		$this->_options->merge($options);
+		$this->_options = $this->_options->merge($options);
 
 		return $this;
 	}
@@ -122,11 +139,11 @@ class Mn_Thrift {
 		require_once $this->_options->path.'/Thrift.php';
 		require_once $this->_options->path.'/packages/'.$this->_options->namespace.'/'.$this->_options->service.'.php';
 
-		$transport = $this->_getTransport();
+		$protocol = $this->_getProtocol();
 
 		try {
 			$clientClass = $this->_options->service . 'Client';
-			$this->_client = new $clientClass($transport);
+			$this->_client = new $clientClass($protocol);
 		} catch (Exception $e)
 		{
 			throw new Mn_Thrift_Exception('Thrift Client Exception : '.$e);
@@ -148,19 +165,19 @@ class Mn_Thrift {
 			throw new Mn_Thrift_Exception('Thrift options socket is needed');
 		}
 
-		if(empty($this->options->socket->class))
+		if(empty($this->_options->socket->class))
 		{
 			throw new Mn_Thrift_Exception('Thrift options socket class is needed');
 		}
 
-		require_once $this->_options->path.'/Thrift/transport/' . $this->options->socket->class . '.php';
+		require_once $this->_options->path.'/transport/' . $this->_options->socket->class . '.php';
 
-		switch($this->options->socket->class)
+		switch($this->_options->socket->class)
 		{
 			case 'TSocket':
-				$host    = (isset($this->options->socket->options->host))    ? $this->options->socket->options->host    : 'localhost';
-				$port    = (isset($this->options->socket->options->port))    ? $this->options->socket->options->port    : 9090;
-				$persist = (isset($this->options->socket->options->persist)) ? $this->options->socket->options->persist : false;
+				$host    = (isset($this->_options->socket->options->host))    ? $this->_options->socket->options->host    : 'localhost';
+				$port    = (isset($this->_options->socket->options->port))    ? $this->_options->socket->options->port    : 9090;
+				$persist = (isset($this->_options->socket->options->persist)) ? $this->_options->socket->options->persist : false;
 
 				try{
 					$socket = new TSocket($host, $port, $persist);
@@ -171,11 +188,21 @@ class Mn_Thrift {
 				break;
 
 			default:
-				throw new Mn_Thrift_Exception('Thrift Socket class ' . $this->options->socket->class . 'is note managed yet');
+				throw new Mn_Thrift_Exception('Thrift Socket class ' . $this->_options->socket->class . 'is note managed yet');
 				break;
 		}
 
 		return $socket;
+	}
+	
+	/**
+	 * Has transport
+	 * 
+	 * @return boolean
+	 */
+	protected function _hasTransport()
+	{
+	    return !empty($this->_transport);
 	}
 
 	/**
@@ -187,7 +214,7 @@ class Mn_Thrift {
 	protected function _getTransport()
 	{
 		if($this->_transport){
-			return $this->transport;
+			return $this->_transport;
 		}
 
 		$socket = $this->_getSocket();
@@ -197,18 +224,18 @@ class Mn_Thrift {
 			throw new Mn_Thrift_Exception('Thrift options transport is needed');
 		}
 
-		if(empty($this->options->transport->class))
+		if(empty($this->_options->transport->class))
 		{
 			throw new Mn_Thrift_Exception('Thrift options transport class is needed');
 		}
 
-		require_once $this->_options->path.'/Thrift/transport/' . $this->options->transport->class . '.php';
+		require_once $this->_options->path.'/transport/' . $this->_options->transport->class . '.php';
 
-		switch($this->options->transport->class)
+		switch($this->_options->transport->class)
 		{
 			case 'TBufferedTransport':
-				$rBufSize = (isset($this->options->transport->options->rBufSize)) ? $this->options->transport->options->rBufSize : 1024;
-				$wBufSize = (isset($this->options->transport->options->wBufSize)) ? $this->options->transport->options->wBufSize : 1024;
+				$rBufSize = (isset($this->_options->transport->options->rBufSize)) ? $this->_options->transport->options->rBufSize : 1024;
+				$wBufSize = (isset($this->_options->transport->options->wBufSize)) ? $this->_options->transport->options->wBufSize : 1024;
 
 				try {
 					$this->_transport = new TBufferedTransport($socket, $rBufSize, $wBufSize);
@@ -219,11 +246,59 @@ class Mn_Thrift {
 				break;
 
 			default:
-				throw new Mn_Thrift_Exception('Thrift Socket class ' . $this->options->transport->class . 'is note managed yet');
+				throw new Mn_Thrift_Exception('Thrift transport class ' . $this->_options->transport->class . 'is note managed yet');
 				break;
 		}
 
 		return $this->_transport;
+	}
+	
+	/**
+	 * Get Protocol
+	 *
+	 * @throws Mn_Thrift_Exception
+	 * @return mixed
+	 */
+	protected function _getProtocol()
+	{
+		if($this->_protocol){
+			return $this->_protocol;
+		}
+
+		$transport = $this->_getTransport();
+
+		if(empty($this->_options->protocol))
+		{
+			throw new Mn_Thrift_Exception('Thrift options protocol is needed');
+		}
+
+		if(empty($this->_options->protocol->class))
+		{
+			throw new Mn_Thrift_Exception('Thrift options protocol class is needed');
+		}
+
+		require_once $this->_options->path.'/protocol/' . $this->_options->protocol->class . '.php';
+
+		switch($this->_options->protocol->class)
+		{
+			case 'TBinaryProtocol':
+				$strictRead  = (isset($this->_options->protocol->options->strictRead)) ? $this->_options->protocol->options->strictRead : false;
+				$strictWrite = (isset($this->_options->protocol->options->strictWrite)) ? $this->_options->protocol->options->strictWrite : true;
+
+				try {
+					$this->_protocol = new TBinaryProtocol($transport, $strictRead, $strictWrite);
+				} catch (Exception $e)
+				{
+					throw new Mn_Thrift_Exception('Thrift Protocol Exception : '.$e);
+				}
+				break;
+
+			default:
+				throw new Mn_Thrift_Exception('Thrift protocol class ' . $this->_options->protocol->class . 'is note managed yet');
+				break;
+		}
+
+		return $this->_protocol;
 	}
 
 	/**
@@ -247,7 +322,7 @@ class Mn_Thrift {
 		}
 
 		try{
-			call_user_func(array($client, $name), $arguments);
+			return call_user_func_array(array($client, $name), $arguments);
 		} catch (TTransportException $e)
 		{
 			throw new Mn_Thrift_Exception('Thrift Transport Exception : '.$e);
@@ -261,7 +336,7 @@ class Mn_Thrift {
 	 */
 	public function close()
 	{
-		if(!$this->_getTransport()->isOpen())
+		if($this->_hasTransport() && $this->_getTransport()->isOpen())
 		{
 			$this->_getTransport()->close();
 		}

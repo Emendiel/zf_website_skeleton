@@ -1,0 +1,5 @@
+jquery:
+  - jquery.browserDetect
+  - jquery.ezCookie_0.7.01
+other:
+  - safari-fix

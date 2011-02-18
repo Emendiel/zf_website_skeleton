@@ -55,11 +55,11 @@ production:
                 host: localhost
                 port: 11211
                 persistent: On
-     session:
-       name: mn_website_session_id
-       gc_maxlifetime: 7200
-       use_only_cookies: true
-       remember_me_seconds: 864000
+    session:
+      name: mn_website_session_id
+      gc_maxlifetime: 7200
+      use_only_cookies: true
+      remember_me_seconds: 864000
     mnFacebook:
       appName: mn-skeleton
       appId: 172116222801586
@@ -87,6 +87,21 @@ production:
         filterName: Priority
         filterParams:
           priority: 2
+    multidb:
+      db1:
+        adapter: PDO_MySql
+        host: srv
+        username: user
+        password: pass
+        dbname: name
+    mnthrift:
+      test:
+        namespace: ltt
+        service: LiveTeamToolsExtended
+        socket:
+          options:
+            host: outsourcing-srv.mimesis-republic.net
+            port: 3804
           
 testing:
   _extends: production

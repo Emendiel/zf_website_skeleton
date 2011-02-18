@@ -24,7 +24,8 @@ require_once 'Mn/Thrift.php';
  *   resources.mnthrift.th1.socket.class         = "TSocket"
  *   resources.mnthrift.th1.socket.options.host  = "localhost"
  *   resources.mnthrift.th1.socket.options.port  = 9090
- *   resources.mnthrift.th1.transport.class      = 'TBufferedTransport
+ *   resources.mnthrift.th1.transport.class      = "TBufferedTransport"
+ *   resources.mnthrift.th1.default              = 1
  * </pre>
  *
  * @category   Mn
@@ -33,6 +34,13 @@ require_once 'Mn/Thrift.php';
  */
 class Mn_Application_Resource_Mnthrift extends Zend_Application_Resource_ResourceAbstract
 {
+    /**
+     * Default registry Key
+     *
+     * @var string
+     */
+    const DEFAULT_REGISTRY_KEY = 'Mn_Thrift';
+
     /**
      * Associative array containing all configured thrift client's
      *
@@ -46,6 +54,13 @@ class Mn_Application_Resource_Mnthrift extends Zend_Application_Resource_Resourc
      * @var null|Mn_Thrift
      */
     protected $_defaultThrift;
+    
+    /**
+     * Registry key
+     *
+     * @var string
+     */
+    protected $_registryKey;
 
     /**
      * Initialize the Thrift Connections (instances of Mn_Thrift)
@@ -55,18 +70,27 @@ class Mn_Application_Resource_Mnthrift extends Zend_Application_Resource_Resourc
     public function init()
     {
         $options = $this->getOptions();
+        
+        $this->_registryKey = (isset($options['registry_key']) && !is_numeric($options['registry_key']))
+        ? $options['registry_key']
+        : self::DEFAULT_REGISTRY_KEY;
+        
+        unset($options['registry_key']);
 
-        foreach ($options as $id => $params) 
+        foreach ($options as $id => $params)
         {
             $default = (int) (isset($params['default']) && $params['default']);
             unset($params['default']);
 
-            $this->_thrifts[$id] = new Mn_Thrift($options);
+            $this->_thrifts[$id] = new Mn_Thrift($params);
 
             if ($default) {
                 $this->_setDefault($this->_thrifts[$id]);
             }
         }
+
+        //set in registry
+        Zend_Registry::set($this->_registryKey, $this);
 
         return $this;
     }
@@ -74,10 +98,10 @@ class Mn_Application_Resource_Mnthrift extends Zend_Application_Resource_Resourc
     /**
      * Determine if the given thrift(identifier) is the default thrift.
      *
-     * @param  string|Mn_Thrift $db The thrift to determine whether it's set as default
+     * @param  string|Mn_Thrift $thrift The thrift to determine whether it's set as default
      * @return boolean True if the given parameter is configured as default. False otherwise
      */
-    public function isDefault($db)
+    public function isDefault($thrift)
     {
         if(!$thrift instanceof Mn_Thrift) {
             $thrift = $this->getThrift($thrift);
@@ -89,44 +113,38 @@ class Mn_Application_Resource_Mnthrift extends Zend_Application_Resource_Resourc
     /**
      * Retrieve the specified thrift connection
      *
-     * @param  null|string|Mn_Thrift $thrift The thrift to retrieve. Null to retrieve the default connection
+     * @param  null|string $thriftKey The thrift to retrieve. Null to retrieve the default connection
      * @return Mn_Thrift
      * @throws Zend_Application_Resource_Exception if the given parameter could not be found
      */
-    public function getThrift($thrift = null)
+    public function getThrift($thriftKey = null)
     {
-        if ($thrift === null) {
+        if ($thriftKey === null) {
             return $this->getDefaultThrift();
         }
 
-        if (isset($this->_thrifts[$thrift])) {
-            return $this->_thrifts[$thrift];
+        if (isset($this->_thrifts[$thriftKey])) {
+            return $this->_thrifts[$thriftKey];
         }
 
         throw new Zend_Application_Resource_Exception(
             'A Thrift was tried to retrieve, but was not configured'
-        );
+            );
     }
 
     /**
      * Get the default thrift connection
      *
-     * @param  boolean $justPickOne If true, a random (the first one in the stack)
-     *                           connection is returned if no default was set.
-     *                           If false, null is returned if no default was set.
      * @return null|Mn_Thrift
      */
-    public function getDefaultDb($justPickOne = true)
+    public function getDefaultThrift()
     {
         if ($this->_defaultThrift !== null) {
             return $this->_defaultThrift;
         }
 
-        if ($justPickOne) {
-            return reset($this->_thrifts); // Return first thrist in db pool
-        }
+        return reset($this->_thrifts); // Return first thrist in db pool
 
-        return null;
     }
 
     /**
